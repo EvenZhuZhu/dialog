@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <link rel="stylesheet" href="./base.css">
+  <style>
+    .mask {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, .4);
+    }
+    
+    .mask .buy {
+      width: 6.20rem;
+      height: 4.86rem;
+      background: #fff;
+      margin: 50% auto;
+      border-radius: 0.16rem;
+      padding: 0 0.4rem;
+      box-sizing: border-box;
+      position: relative;
+    }
+    
+    .mask .buy .close {
+      width: 0.28rem;
+      height: 0.28rem;
+      position: absolute;
+      top: 0.3rem;
+      right: 0.3rem;
+    }
+    
+    .mask .buy h1 {
+      line-height: 1.22rem;
+      font-family: 'Adobe 黑体 Std';
+      font-size: 0.38rem;
+      text-align: center;
+    }
+    
+    .mask .buy p {
+      font-size: 0.24rem;
+      line-height: 0.24rem;
+      color: #c6c6c6;
+      text-align: center;
+    }
+    
+    .mask .buy input {
+      width: 100%;
+      height: 0.9rem;
+      background-color: #f8f8f8;
+      padding-left: 0.3rem;
+      box-sizing: border-box;
+      border-radius: 0.08rem;
+    }
+    
+    .mask .buy input::placeholder {
+      font-size: 0.28rem;
+      color: #c6c6c6;
+    }
+    
+    .mask .buy button {
+      width: 100%;
+      height: 0.9rem;
+      background-color: #ee5050;
+      color: #fff;
+      font-size: 0.32rem;
+      border-radius: 0.08rem;
+      border: none;
+      outline: none;
+    }
+    
+    .mask .tip {
+      display: none;
+      width: 5.8rem;
+      height: 6.05rem;
+      margin: 30% auto;
+      background: url("./images/tip.png") no-repeat center center;
+      background-size: 5.8rem 6.05rem;
+      position: relative;
+      text-align: center;
+    }
+    
+    .mask .tip p {
+      position: absolute;
+      top: 2.9rem;
+      line-height: 0.46rem;
+      font-size: 0.24rem;
+      padding: 0 0.7rem;
+      color: #757575;
+    }
+    
+    .mask .tip button {
+      position: absolute;
+      width: 2.6rem;
+      height: 0.8rem;
+      border-radius: 0.4rem;
+      background-color: #ee5050;
+      border: none;
+      outline: none;
+      font-size: 0.32rem;
+      color: #fff;
+      bottom: 0.6rem;
+      left: 1.6rem;
+    }
+  
+  </style>
+</head>
+<body>
+
+<div class="mask">
+  <div class="buy">
+    <img src="./images/close.png" alt="" class="close">
+    <h1>购买商标</h1>
+    <p>请确认您的手机号码然后点击“下一步”继续</p>
+    <input type="text" placeholder="请输入手机号码" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')"/>
+    <button>下一步</button>
+  </div>
+  <div class="tip">
+    <p>由于商标领域专业性较强，为了更好的解决您购买商标的问题，我们已安排专人为您一对一服务，请耐心等待。</p>
+    <button>确定</button>
+  </div>
+</div>
+
+<script src="./jquery.min.js"></script>
+<script>
+  
+  //出现弹框禁止滚屏
+  var flag = 0;//标识，初始为0
+  $('header.header .fr').on('click', function () {
+    $('.mask').css('display', 'block')
+    flag = 1;
+    document.addEventListener('touchmove', function (event) { //监听滚动事件
+      if (flag == 1) { //判断是遮罩显示时执行，禁止滚屏
+        event.preventDefault(); //最关键的一句，禁止浏览器默认行为
+      }
+    })
+  })
+  
+  
+  $('.mask .buy .close').on('click', function () {
+    $('.mask').css('display', 'none')
+    flag = 0;
+  })
+  
+  $('.mask .buy button').on('click', function () {
+    var inputval = $('.mask .buy input').val();
+    if (inputval.length < 11 || inputval.slice(0, 1) != 1) {
+      alert('请输入正确的手机号')
+    } else {
+      $('.mask .buy').css('display', 'none');
+      $('.mask .tip').css('display', 'block');
+      $('.mask .tip button').on('click', function () {
+        $('.mask').css('display', 'none');
+      })
+    }
+  })
+
+</script>
+
+</body>
+</html>
